@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Título de la página principal -->
+    <title>Juan Carlos Núñez | Candidato al Senado | Nuevo Liberalismo</title>
+    <!-- Carga de Tailwind CSS para diseño moderno y responsive -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Definición de colores base del Estilo A: Moderno Político (Bandera de Colombia) */
+        :root {
+            --color-primary: #fcd116; /* Amarillo (Fuerza) */
+            --color-secondary: #003087; /* Azul (Confianza) */
+            --color-accent: #c8102e; /* Rojo (Acción/Pasión) */
+            --color-dark: #1f2937; /* Gris Oscuro */
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fafb; /* Fondo muy claro */
+        }
+        /* Estilo para los títulos de las propuestas */
+        .proposal-card-title {
+            color: var(--color-secondary);
+            border-left: 4px solid var(--color-accent);
+            padding-left: 1rem;
+        }
+        /* Estilo para el botón de menú flotante en móvil */
+        .menu-btn {
+            background-color: var(--color-secondary);
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        /* Estilo para las imágenes de la galería (para asegurar que tengan el mismo tamaño) */
+        .gallery-img {
+            aspect-ratio: 1 / 1; /* Hace que las imágenes sean cuadradas */
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- 1. BARRA DE NAVEGACIÓN FIJA (HEADER) -->
+    <header class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
+            <a href="#inicio" class="text-2xl font-extrabold text-[var(--color-secondary)] hover:text-blue-700 transition duration-300">
+                J.C. Núñez
+            </a>
+            <!-- Menú Desktop -->
+            <nav class="hidden md:flex space-x-6 text-lg font-medium">
+                <a href="#perfil" class="text-gray-600 hover:text-[var(--color-accent)] transition duration-300">Perfil</a>
+                <a href="#propuestas" class="text-gray-600 hover:text-[var(--color-accent)] transition duration-300">Propuestas</a>
+                <a href="#marcar" class="text-gray-600 hover:text-[var(--color-accent)] transition duration-300">Tarjetón</a>
+                <a href="#galeria-completa" class="text-gray-600 hover:text-[var(--color-accent)] transition duration-300">Galería</a>
+                <a href="#contacto" class="text-gray-600 hover:text-[var(--color-accent)] transition duration-300">Contacto</a>
+            </nav>
+            <!-- Botón de menú para móvil (se controla con JS) -->
+            <button id="menu-toggle" class="md:hidden p-2 rounded-lg menu-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Menú Móvil Desplegable (Hidden by default) -->
+    <nav id="mobile-menu" class="hidden md:hidden bg-gray-50 fixed w-full z-40 shadow-xl border-t border-gray-200">
+        <div class="px-2 pt-2 pb-3 space-y-1 text-center font-medium text-lg">
+            <a href="#perfil" class="block py-2 text-gray-700 hover:bg-gray-200 rounded-lg">Perfil</a>
+            <a href="#propuestas" class="block py-2 text-gray-700 hover:bg-gray-200 rounded-lg">Propuestas</a>
+            <a href="#marcar" class="block py-2 text-gray-700 hover:bg-gray-200 rounded-lg">Tarjetón</a>
+            <a href="#galeria-completa" class="block py-2 text-gray-700 hover:bg-gray-200 rounded-lg">Galería</a>
+            <a href="#contacto" class="block py-2 text-gray-700 hover:bg-gray-200 rounded-lg">Contacto</a>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <!-- 2. SECCIÓN DE INICIO / HERO (id="inicio") -->
+        <section id="inicio" class="text-center py-20 md:py-32 bg-white rounded-xl shadow-xl mt-6">
+            <div class="max-w-4xl mx-auto">
+                <!-- Imagen de Campaña/Perfil -->
+                <div class="relative inline-block mb-6 w-full max-w-lg mx-auto">
+                    <!-- Referencia a la imagen subida, con fallback -->
+                    <img src="IMAGEN DE CAMPAÑA AL SENADO DE LA REPUBLICA DE COLOMBIA.jpg" alt="Imagen de Campaña Juan Carlos Núñez"
+                         class="w-full object-cover mx-auto shadow-lg border-4 border-white transition duration-500 transform hover:scale-105 rounded-lg"
+                         onerror="this.onerror=null; this.src='https://placehold.co/800x400/fcd116/003087?text=IMAGEN+DE+CAMPA%C3%91A';">
+                </div>
+
+                <p class="text-xl font-bold mb-1" style="color: var(--color-secondary);">Candidato al Senado de la República</p>
+                
+                <!-- Nombre del Candidato - TAMAÑO REDUCIDO -->
+                <h1 class="text-5xl md:text-6xl font-black mb-4 leading-tight text-gray-900">
+                    JUAN CARLOS NÚÑEZ
+                </h1>
+                
+                <!-- Eslogan con colores personalizados y SIGNOS DE ADMIRACIÓN (AJUSTADO) -->
+                <p class="text-2xl md:text-3xl font-extrabold mb-8">
+                    <span style="color: var(--color-secondary);">¡CUANDO TODOS AVANZAMOS</span>
+                    <span style="color: var(--color-primary);"> GANA </span>
+                    <!-- COLOMBIA en Rojo -->
+                    <span style="color: var(--color-accent);">COLOMBIA!</span>
+                </p>
+
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto mb-8">
+                    Trabajando por la educación técnica, la transparencia y las oportunidades reales desde el territorio.
+                </p>
+
+                <!-- Botón de acción principal -->
+                <a href="#propuestas" class="mt-8 inline-block bg-[var(--color-secondary)] hover:bg-blue-800 text-white text-xl font-bold py-3 px-10 rounded-full shadow-lg transition duration-300 transform hover:translate-y-[-2px] focus:ring-4 focus:ring-blue-300">
+                    Conoce mis Propuestas
+                </a>
+            </div>
+        </section>
+
+        <!-- NUEVA SECCIÓN: MARCA AL SENADO (Tarjetón) - AHORA DESPUÉS DE INICIO -->
+        <section id="marcar" class="py-16 bg-[var(--color-secondary)] text-white rounded-xl shadow-2xl mt-10">
+            <div class="max-w-4xl mx-auto text-center px-4">
+                <h2 class="text-4xl md:text-5xl font-extrabold mb-6 border-b-4 border-[var(--color-primary)] inline-block pb-2">
+                    ¡Marca Así al Senado!
+                </h2>
+                <p class="text-xl font-medium mb-8">
+                    Tu voto es para el <strong>Nuevo Liberalismo</strong> y el número <strong>84</strong>.
+                </p>
+                
+                <!-- Contenedor de la Imagen del Tarjetón -->
+                <div class="relative inline-block w-full max-w-2xl mx-auto">
+                    <!-- Imagen del Tarjetón (AQUÍ SE APLICAN LOS EFECTOS) -->
+                    <img src="Tarjeton listo 8 de diciembre.jpg" alt="Instrucción de cómo marcar el Tarjetón al Senado, logo y número 84"
+                         class="w-full h-auto object-contain mx-auto shadow-2xl border-4 border-[var(--color-accent)] rounded-lg transition duration-500 transform hover:scale-105"
+                         onerror="this.onerror=null; this.src='https://placehold.co/800x500/c8102e/ffffff?text=IMAGEN+DE+INSTRUCCION+TARJET%C3%93N+';">
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. SECCIÓN SOBRE MÍ (id="perfil") -->
+        <section id="perfil" class="py-20">
+            <h2 class="text-5xl font-extrabold text-[var(--color-dark)] mb-12 border-b-4 border-[var(--color-primary)] pb-2">
+                Conoce Mi Historia y Propósito
+            </h2>
+            <div class="space-y-10 text-lg">
+                <!-- Sobre Mí -->
+                <div>
+                    <h3 class="text-3xl font-bold text-[var(--color-accent)] mb-4">¿Quién soy?</h3>
+                    <p class="text-gray-700 leading-relaxed">Soy <strong>Juan Carlos Núñez</strong>, un ciudadano colombiano que cree profundamente en el poder de los sueños y en la capacidad que tiene cada persona para <strong>transformar su realidad y la de su comunidad</strong>. Soy un apasionado del fútbol, los viajes y la cultura de nuestro país. Disfruto acompañar, orientar y motivar a quienes me rodean, porque estoy convencido de que cuando una persona se enfoca, cree en sus propósitos y trabaja por su futuro, puede lograr lo que se propone. Y si cada uno de nosotros avanza, juntos podemos construir un mejor país.</p>
+                    <p class="mt-4 text-gray-700 leading-relaxed">Me caracterizo por mi <strong>espíritu solidario</strong> y mi <strong>compromiso social</strong>. Me gusta ayudar a los demás, trabajar con organizaciones y aportar donde pueda ser útil. También amo a los animales y siempre que está en mis manos busco protegerlos y apoyarlos. En esencia, me apasionan las cosas buenas, las causas justas y todo aquello que contribuya al bienestar de las personas y de nuestras comunidades.</p>
+                </div>
+
+                <!-- De dónde soy -->
+                <div>
+                    <h3 class="text-3xl font-bold text-[var(--color-accent)] mb-4">Mi Raíz: Cúcuta y Colombia</h3>
+                    <p class="text-gray-700 leading-relaxed">Soy de <strong>Cúcuta</strong>, la ciudad donde nací y donde di mis primeros pasos en la vida. Me crié en el <strong>barrio Morelis</strong>, un lugar marcado por la <strong>pobreza extrema</strong>, que moldeó mi carácter y me enseñó desde niño el valor del esfuerzo, la resiliencia y la solidaridad. Haber crecido allí me hizo entender las necesidades reales de las familias colombianas y me enseñó que las oportunidades deben llegar a todos los territorios, sin importar su condición.</p>
+                    <p class="mt-4 text-gray-700 leading-relaxed">Además de Cúcuta, también viví en diferentes regiones del país que ampliaron mi visión y fortalecieron mi compromiso social. Pasé parte de mi vida en Ocaña, Aguachica, Morales Bolívar, la vereda La Labranza, Maicao, El Espinal (Tolima) y Bucaramanga. Cada uno de estos lugares me permitió conocer de cerca distintas realidades y entender que Colombia es un país diverso, pero con desafíos comunes. Esta experiencia de vida, construida desde la <strong>humildad y el trabajo</strong>, es la que hoy me impulsa a aspirar al Senado con la convicción de trabajar por todas las regiones de Colombia, especialmente por aquellas que aún esperan oportunidades reales de desarrollo.</p>
+                </div>
+
+                <!-- Formación -->
+                <div>
+                    <h3 class="text-3xl font-bold text-[var(--color-accent)] mb-4">Educación, el Motor de la Transformación</h3>
+                    <p class="text-gray-700 leading-relaxed">Mi proceso de formación comenzó más tarde que el de muchos niños, porque desde pequeño tuve la responsabilidad de cuidar a mi hermano menor. Pude empezar a estudiar alrededor de los diez años, en la vereda La Labranza, recorriendo a diario <strong>una hora en burro o mula</strong> para llegar a la escuela. Ese esfuerzo me enseñó que la <strong>educación transforma</strong>, pero también que miles de niños en Colombia deben superar grandes obstáculos para acceder a ella.</p>
+                    <p class="mt-4 text-gray-700 leading-relaxed">Más adelante, combiné mis clases con trabajos como cuidar ciclas y limpiar motos. Tras validar el grado 11, inicié mi formación técnica y virtual, convirtiéndome en <strong>técnico en reparación de celulares, computadores y tabletas</strong>, además de <strong>técnico en informática</strong>. Hoy finalizo mi tecnólogo en <strong>Análisis y Desarrollo de Software del SENA</strong> y estudio <strong>Administración Pública</strong>, convencido de que la preparación académica fortalece la capacidad de servir a la comunidad.</p>
+                </div>
+
+                <!-- Trabajo y Labor Comunitaria -->
+                <div>
+                    <h3 class="text-3xl font-bold text-[var(--color-accent)] mb-4">Mi Compromiso Comunitario</h3>
+                    <p class="text-gray-700 leading-relaxed">Mi trabajo profesional se ha enfocado en el área tecnológica (reparación y seguridad CCTV). Pero he dedicado mi vida a la <strong>labor comunitaria</strong> como <strong>Director de la fundación Bibliotecas Comunales JC</strong>, llevando educación y oportunidades a los barrios más necesitados mediante talleres, asesorías y actividades formativas.</p>
+                    <p class="mt-4 text-gray-700 leading-relaxed">Mi compromiso también incluye <strong>asesorar a presidentes de Juntas de Acción Comunal</strong> sobre la gestión de proyectos y trabajar con organizaciones que atienden situaciones de vulnerabilidad, facilitando la comunicación para que la ayuda llegue donde se necesita. Mi objetivo siempre ha sido <strong>fortalecer a las comunidades</strong> y abrir caminos de educación.</p>
+                </div>
+
+                <!-- Por qué aspiro -->
+                <div class="p-6 rounded-xl bg-gray-100 border-l-4 border-[var(--color-secondary)]">
+                    <h3 class="text-3xl font-extrabold text-[var(--color-secondary)] mb-4">¿Por qué aspiro al Senado?</h3>
+                    <p class="text-gray-800 leading-relaxed font-medium">Aspiro al Senado porque conozco de primera mano las realidades de la falta de oportunidades. Mi camino me enseñó que la educación técnica y tecnológica transforma vidas, y quiero trabajar para que esas <strong>oportunidades lleguen a todos los territorios del país</strong>. Quiero llegar al Senado para <strong>representar a quienes nunca han tenido representación</strong>, impulsando <strong>políticas públicas reales, prácticas y cercanas a la gente</strong>; políticas construidas desde el territorio, no desde escritorios. Estoy convencido de que todos los colombianos merecen oportunidades reales para construir un futuro digno.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. SECCIÓN DE PROPUESTAS (id="propuestas") -->
+        <section id="propuestas" class="py-20 bg-white rounded-xl shadow-xl p-8 mt-10">
+            <h2 class="text-5xl font-extrabold text-[var(--color-dark)] mb-12 text-center border-b-4 border-[var(--color-accent)] pb-2">
+                Mis 7 Pilares para el Senado
+            </h2>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                <!-- 1. EDUCACIÓN -->
+                <div class="p-6 border-2 border-gray-200 rounded-xl hover:shadow-lg transition duration-300">
+                    <h3 class="text-2xl font-bold proposal-card-title mb-3">Educación</h3>
+                    <p class="text-gray-600 mb-4">Impulso a la educación técnica y tecnológica como herramienta de transformación.</p>
+                    <ul class="list-disc ml-5 space-y-2 text-gray-700">
+                        <li><strong>Ajuste de Calendario Académico:</strong> Semestres universitarios terminados el 31 de octubre para que los jóvenes puedan trabajar en noviembre y diciembre sin perder el semestre.</li>
+                        <li><strong>Convenios Comunitarios:</strong> Alianzas con SENA y universidades para llevar carreras técnicas directamente a los salones comunales.</li>
+                    </ul>
+                </div>
+
+                <!-- 2. TRANSPARENCIA -->
+                <div class="p-6 border-2 border-gray-200 rounded-xl hover:shadow-lg transition duration-300">
+                    <h3 class="text-2xl font-bold proposal-card-title mb-3">Transparencia</h3>
+                    <p class="text-gray-600 mb-4">Mecanismos de rendición de cuentas claros y acceso a la información pública.</p>
+                    <ul class="list-disc ml-5 space-y-2 text-gray-700">
+                        <li><strong>Rendición de Cuentas Accesible:</strong> Promover herramientas digitales y comunitarias para que los ciudadanos hagan seguimiento a proyectos e inversión.</li>
+                        <li><strong>Participación en Supervisión:</strong> Facilitar la participación ciudadana directa en la supervisión del uso de recursos públicos.</li>
+                    </ul>
+                </div>
+
+                <!-- 3. JUVENTUD -->
+                <div class="p-6 border-2 border-gray-200 rounded-xl hover:shadow-lg transition duration-300">
+                    <h3 class="text-2xl font-bold proposal-card-title mb-3">Juventud</h3>
+                    <p class="text-gray-600 mb-4">Fortalecer la formación y el emprendimiento juvenil, garantizando oportunidades.</p>
+                    <ul class="list-disc ml-5 space-y-2 text-gray-700">
+                        <li><strong>Fomento al Emprendimiento:</strong> Apoyo a proyectos de negocio juvenil para generar ingresos y autonomía.</li>
+                        <li><strong>Estudio y Trabajo:</strong> Impulsar pasantías y cursos prácticos para que los jóvenes puedan estudiar y trabajar al mismo tiempo.</li>
+                    </ul>
+                </div>
+
+                <!-- 4. TECNOLOGÍA -->
+                <div class="p-6 border-2 border-gray-200 rounded-xl hover:shadow-lg transition duration-300">
+                    <h3 class="text-2xl font-bold proposal-card-title mb-3">Tecnología</h3>
+                    <p class="text-gray-600 mb-4">Uso de la tecnología para la seguridad y el desarrollo de las comunidades.</p>
+                    <ul class="list-disc ml-5 space-y-2 text-gray-700">
+                        <li><strong>Seguridad Tecnológica:</strong> Impulsar la implementación de sistemas de cámaras de seguridad (CCTV) con monitoreo en tiempo real en barrios y ciudades.</li>
+                        <li><strong>Educación Digital:</strong> Acercar herramientas y cursos técnicos digitales a los jóvenes.</li>
+                    </ul>
+                </div>
+
+                <!-- 5. SEGURIDAD -->
+                <div class="p-6 border-2 border-gray-200 rounded-xl hover:shadow-lg transition duration-300">
+                    <h3 class="text-2xl font-bold proposal-card-title mb-3">Seguridad</h3>
+                    <p class="text-gray-600 mb-4">Garantizar que mujeres, niños y adultos puedan vivir en entornos seguros.</p>
+                    <ul class="list-disc ml-5 space-y-2 text-gray-700">
+                        <li><strong>Monitoreo y Tecnología:</strong> Instalación de cámaras de seguridad y sistemas de monitoreo para prevención de delitos.</li>
+                        <li><strong>Pedagogía de Empatía:</strong> Promover programas de formación para la fuerza pública enfocados en la cercanía con la ciudadanía para recuperar la confianza.</li>
+                    </ul>
+                </div>
+
+                <!-- 6. ECONOMÍA SOLIDARIA -->
+                <div class="p-6 border-2 border-gray-200 rounded-xl hover:shadow-lg transition duration-300">
+                    <h3 class="text-2xl font-bold proposal-card-title mb-3">Economía Solidaria</h3>
+                    <p class="text-gray-600 mb-4">Fomentar una economía incluyente, colaborativa y con oportunidades.</p>
+                    <ul class="list-disc ml-5 space-y-2 text-gray-700">
+                        <li><strong>Emprendimiento Local:</strong> Impulsar programas de apoyo a negocios sostenibles liderados por jóvenes y familias.</li>
+                        <li><strong>Capacitación:</strong> Brindar acceso a recursos y acompañamiento técnico para el crecimiento de proyectos.</li>
+                    </ul>
+                </div>
+
+                <!-- 7. PARTICIPACIÓN CIUDADANA (Propuesta adicional de Recuperación) -->
+                <div class="md:col-span-2 lg:col-span-3 p-6 bg-[var(--color-secondary)] text-white rounded-xl shadow-2xl">
+                    <h3 class="text-3xl font-extrabold mb-4 border-b-2 border-[var(--color-primary)] pb-2">
+                        Propuesta Especial: Recupera y Aprende
+                    </h3>
+                    <p class="text-lg mb-3 font-medium">
+                        <strong>Aprovechamiento de Vehículos y Educación Técnica:</strong> Propongo el uso de vehículos y autopartes retenidos en patios para que jóvenes aprendices del SENA los reparen y adquieran experiencia práctica.
+                    </p>
+                    <p class="text-lg">
+                        Los vehículos y piezas reparadas se venden a precios accesibles, y los recursos se destinan a un fondo para la educación técnica. <strong>Beneficios:</strong> Reducción del robo, formación práctica para jóvenes y uso eficiente de recursos.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. SECCIÓN DE GALERÍA DESTACADA (id="galeria" - Breve) -->
+        <section id="galeria" class="py-20 bg-gray-100 rounded-xl shadow-xl p-8 mt-10 text-center">
+            <h2 class="text-4xl font-extrabold text-[var(--color-dark)] mb-6 border-b-4 border-[var(--color-secondary)] pb-2 max-w-xl mx-auto">
+                Mi Trayectoria Visual
+            </h2>
+            <p class="text-xl text-center text-gray-600 mb-10 max-w-2xl mx-auto">
+                Mira mi trabajo social, mis raíces y mi compromiso en imágenes.
+            </p>
+
+            <!-- 4 Imágenes Destacadas (Placeholders) -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto">
+                <!-- Usamos las primeras 4 fotos de la galería completa -->
+                <img src="trabajo_social_01.jpg" alt="Foto de trabajo social" class="w-full h-40 object-cover rounded-lg shadow-md hover:opacity-90 transition duration-300" onerror="this.onerror=null; this.src='https://placehold.co/400x400/003087/ffffff?text=FOTO+1';">
+                <img src="trabajo_social_02.jpg" alt="Foto de reunión de barrio" class="w-full h-40 object-cover rounded-lg shadow-md hover:opacity-90 transition duration-300" onerror="this.onerror=null; this.src='https://placehold.co/400x400/c8102e/ffffff?text=FOTO+2';">
+                <img src="trabajo_social_03.jpg" alt="Foto de formación SENA" class="w-full h-40 object-cover rounded-lg shadow-md hover:opacity-90 transition duration-300" onerror="this.onerror=null; this.src='https://placehold.co/400x400/fcd116/003087?text=FOTO+3';">
+                <img src="trabajo_social_04.jpg" alt="Foto de familia y comunidad" class="w-full h-40 object-cover rounded-lg shadow-md hover:opacity-90 transition duration-300" onerror="this.onerror=null; this.src='https://placehold.co/400x400/003087/ffffff?text=FOTO+4';">
+            </div>
+            
+            <!-- Botón para ir a la Galería Completa (Ahora apunta a una sección interna) -->
+            <div class="mt-12">
+                <a href="#galeria-completa" class="inline-block bg-[var(--color-accent)] hover:bg-red-700 text-white text-xl font-bold py-3 px-10 rounded-full shadow-lg transition duration-300 transform hover:translate-y-[-2px] focus:ring-4 focus:ring-red-300">
+                    Ver Galería Completa (+20 Fotos)
+                </a>
+            </div>
+        </section>
+
+        <!-- 6. SECCIÓN DE CONTACTO (id="contacto") -->
+        <section id="contacto" class="py-20 text-center">
+            <h2 class="text-5xl font-extrabold text-[var(--color-dark)] mb-8 border-b-4 border-[var(--color-primary)] pb-2 max-w-xl mx-auto">
+                Contacto
+            </h2>
+            <p class="text-xl text-gray-600 mb-10 max-w-2xl mx-auto">
+                Tu voz es importante para la construcción de una Colombia donde todos avancemos. Escríbeme.
+            </p>
+            
+            <!-- Contactos Actualizados -->
+            <div class="flex flex-col md:flex-row justify-center space-y-6 md:space-y-0 md:space-x-8">
+                
+                <!-- Teléfono/WhatsApp Actualizado -->
+                <a href="https://wa.me/573223061578" target="_blank" class="flex items-center justify-center p-4 bg-green-500 text-white rounded-lg shadow-lg hover:bg-green-600 transition duration-300 w-full md:w-auto">
+                    <span class="text-xl font-bold">WhatsApp (322 306 1578)</span>
+                </a>
+
+                <!-- Correo Electrónico Actualizado -->
+                <a href="mailto:juancnunez.participacion@gmail.com" class="flex items-center justify-center p-4 bg-gray-700 text-white rounded-lg shadow-lg hover:bg-gray-800 transition duration-300 w-full md:w-auto">
+                    <span class="text-xl font-bold">Correo: juancnunez.participacion@gmail.com</span>
+                </a>
+            </div>
+
+            <p class="mt-8 text-sm text-gray-500"></p>
+        </section>
+        
+        <!-- 7. SECCIÓN DE GALERÍA COMPLETA (Combinación de galeria.html) -->
+        <section id="galeria-completa" class="py-20 bg-gray-100 rounded-xl shadow-xl p-8 mt-10">
+            
+            <!-- Botón para regresar al inicio/propuestas -->
+            <div class="text-center mb-10">
+                <a href="#propuestas" class="inline-block bg-[var(--color-secondary)] hover:bg-blue-800 text-white text-xl font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 transform hover:translate-y-[-2px] focus:ring-4 focus:ring-blue-300">
+                    <span class="text-[var(--color-accent)]">&larr;</span> Regresar a Propuestas
+                </a>
+            </div>
+
+            <!-- Título de la Galería -->
+            <div class="text-center mb-12">
+                <h2 class="text-5xl font-extrabold text-[var(--color-secondary)] mb-4">
+                    Trayectoria Visual y Compromiso
+                </h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Una mirada en imágenes a mi trabajo social, mis raíces y mi compromiso con el desarrollo de nuestras comunidades.
+                </p>
+            </div>
+
+            <!-- Contenedor de la Galería (20 Imágenes) -->
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                
+                <!-- Bloque de Imagen 1 -->
+                <div class="rounded-lg overflow-hidden shadow-xl transition duration-300 transform hover:scale-[1.02] bg-white border border-gray-200">
+                    <!-- El código busca 'trabajo_social_01.jpg' -->
+                    <img src="trabajo_social_01.jpg" alt="Entrega de equipos a la comunidad" class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/400x400/003087/ffffff?text=FOTO+1';">
+                    <div class="p-3 text-sm text-gray-700 font-medium border-t border-gray-100">
+                        Trabajo social y entrega de equipos en la fundación.
+                    </div>
+                </div>
+
+                <!-- Bloque de Imagen 2 -->
+                <div class="rounded-lg overflow-hidden shadow-xl transition duration-300 transform hover:scale-[1.02] bg-white border border-gray-200">
+                    <!-- El código busca 'trabajo_social_02.jpg' -->
+                    <img src="trabajo_social_02.jpg" alt="Reunión con líderes comunales" class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/400x400/c8102e/ffffff?text=FOTO+2';">
+                    <div class="p-3 text-sm text-gray-700 font-medium border-t border-gray-100">
+                        Asesorando líderes de Juntas de Acción Comunal.
+                    </div>
+                </div>
+
+                <!-- Bloque de Imagen 3 -->
+                <div class="rounded-lg overflow-hidden shadow-xl transition duration-300 transform hover:scale-[1.02] bg-white border border-gray-200">
+                    <!-- El código busca 'trabajo_social_03.jpg' -->
+                    <img src="trabajo_social_03.jpg" alt="Apoyo a emprendedores locales" class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/400x400/fcd116/003087?text=FOTO+3';">
+                    <div class="p-3 text-sm text-gray-700 font-medium border-t border-gray-100">
+                        Impulsando emprendimientos y negocios locales.
+                    </div>
+                </div>
+
+                <!-- Bloque de Imagen 4 -->
+                <div class="rounded-lg overflow-hidden shadow-xl transition duration-300 transform hover:scale-[1.02] bg-white border border-gray-200">
+                    <!-- El código busca 'trabajo_social_04.jpg' -->
+                    <img src="trabajo_social_04.jpg" alt="Visita a la vereda La Labranza" class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/400x400/003087/ffffff?text=FOTO+4';">
+                    <div class="p-3 text-sm text-gray-700 font-medium border-t border-gray-100">
+                        Recorriendo La Labranza, donde inició mi camino.
+                    </div>
+                </div>
+
+                <!-- Bloque de Imagen 5 -->
+                <div class="rounded-lg overflow-hidden shadow-xl transition duration-300 transform hover:scale-[1.02] bg-white border border-gray-200">
+                    <!-- El código busca 'trabajo_social_05.jpg' -->
+                    <img src="trabajo_social_05.jpg" alt="Reunión con jóvenes SENA" class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/400x400/c8102e/ffffff?text=FOTO+5';">
+                    <div class="p-3 text-sm text-gray-700 font-medium border-t border-gray-100">
+                        Fomentando la educación técnica con jóvenes SENA.
+                    </div>
+                </div>
+
+                <!-- Bloque de Imagen 6 -->
+                <div class="rounded-lg overflow-hidden shadow-xl transition duration-300 transform hover:scale-[1.02] bg-white border border-gray-200">
+                    <!-- El código busca 'trabajo_social_06.jpg' -->
+                    <img src="trabajo_social_06.jpg" alt="Trabajo con tecnología y seguridad" class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/400x400/fcd116/003087?text=FOTO+6';">
+                    <div class="p-3 text-sm text-gray-700 font-medium border-t border-gray-100">
+                        Instalando sistemas de seguridad (CCTV) en la comunidad.
+                    </div>
+                </div>
+
+                <!-- Bloque de Imagen 7 -->
+                <div class="rounded-lg overflow-hidden shadow-xl transition duration-300 transform hover:scale-[1.02] bg-white border border-gray-200">
+                    <!-- El código busca 'trabajo_social_07.jpg' -->
+                    <img src="trabajo_social_07.jpg" alt="Interacción con niños en el barrio" class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/400x400/003087/ffffff?text=FOTO+7';">
+                    <div class="p-3 text-sm text-gray-700 font-medium border-t border-gray-100">
+                        Promoviendo la lectura en la fundación infantil.
+                    </div>
+                </div>
+
+                <!-- Bloque de Imagen 8 -->
+                <div class="rounded-lg overflow-hidden shadow-xl transition duration-300 transform hover:scale-[1.02] bg-white border border-gray-200">
+                    <!-- El código busca 'trabajo_social_08.jpg' -->
+                    <img src="trabajo_social_08.jpg" alt="Asesoría de proyectos a JAC" class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/400x400/c8102e/ffffff?text=FOTO+8';">
+                    <div class="p-3 text-sm text-gray-700 font-medium border-t border-gray-100">
+                        Orientación para la gestión de proyectos comunitarios.
+                    </div>
+                </div>
+
+                <!-- Bloque de Imagen 9 -->
+                <div class="rounded-lg overflow-hidden shadow-xl transition duration-300 transform hover:scale-[1.02] bg-white border border-gray-200">
+                    <!-- El código busca 'trabajo_social_09.jpg' -->
+                    <img src="trabajo_social_09.jpg" alt="Trabajando en el área de informática" class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/400x400/fcd116/003087?text=FOTO+9';">
+                    <div class="p-3 text-sm text-gray-700 font-medium border-t border-gray-100">
+                        Mi experiencia como técnico en informática y reparación.
+                    </div>
+                </div>
+
+                <!-- Bloque de Imagen 10 -->
+                <div class="rounded-lg overflow-hidden shadow-xl transition duration-300 transform hover:scale-[1.02] bg-white border border-gray-200">
+                    <!-- El código busca 'trabajo_social_10.jpg' -->
+                    <img src="trabajo_social_10.jpg" alt="Encuentro con familias de Cúcuta" class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/400x400/003087/ffffff?text=FOTO+10';">
+                    <div class="p-3 text-sm text-gray-700 font-medium border-t border-gray-100">
+                        Escuchando las necesidades de las familias colombianas.
+                    </div>
+                </div>
+
+                <!-- Bloque de Imagen 11 -->
+                <div class="rounded-lg overflow-hidden shadow-xl transition duration-300 transform hover:scale-[1.02] bg-white border border-gray-200">
+                    <!-- El código busca 'trabajo_social_11.jpg' -->
+                    <img src="trabajo_social_11.jpg" alt="Recorrido por Ocaña y la región" class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/400x400/c8102e/ffffff?text=FOTO+11';">
+                    <div class="p-3 text-sm text-gray-700 font-medium border-t border-gray-100">
+                        Conociendo de cerca las realidades de Ocaña.
+                    </div>
+                </div>
+
+                <!-- Bloque de Imagen 12 -->
+                <div class="rounded-lg overflow-hidden shadow-xl transition duration-300 transform hover:scale-[1.02] bg-white border border-gray-200">
+                    <!-- El código busca 'trabajo_social_12.jpg' -->
+                    <img src="trabajo_social_12.jpg" alt="En Bucaramanga validando mi formación" class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/400x400/fcd116/003087?text=FOTO+12';">
+                    <div class="p-3 text-sm text-gray-700 font-medium border-t border-gray-100">
+                        Mi logro de graduación como bachiller en Bucaramanga.
+                    </div>
+                </div>
+
+                <!-- Bloque de Imagen 13 -->
+                <div class="rounded-lg overflow-hidden shadow-xl transition duration-300 transform hover:scale-[1.02] bg-white border border-gray-200">
+                    <!-- El código busca 'trabajo_social_13.jpg' -->
+                    <img src="trabajo_social_13.jpg" alt="Trabajando con organizaciones internacionales" class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/400x400/003087/ffffff?text=FOTO+13';">
+                    <div class="p-3 text-sm text-gray-700 font-medium border-t border-gray-100">
+                        Facilitando ayuda con organizaciones internacionales.
+                    </div>
+                </div>
+
+                <!-- Bloque de Imagen 14 -->
+                <div class="rounded-lg overflow-hidden shadow-xl transition duration-300 transform hover:scale-[1.02] bg-white border border-gray-200">
+                    <!-- El código busca 'trabajo_social_14.jpg' -->
+                    <img src="trabajo_social_14.jpg" alt="Fomentando la participación ciudadana" class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/400x400/c8102e/ffffff?text=FOTO+14';">
+                    <div class="p-3 text-sm text-gray-700 font-medium border-t border-gray-100">
+                        Creando espacios de consulta con la ciudadanía.
+                    </div>
+                </div>
+
+                <!-- Bloque de Imagen 15 -->
+                <div class="rounded-lg overflow-hidden shadow-xl transition duration-300 transform hover:scale-[1.02] bg-white border border-gray-200">
+                    <!-- El código busca 'trabajo_social_15.jpg' -->
+                    <img src="trabajo_social_15.jpg" alt="Visita a Morales, Bolívar" class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/400x400/fcd116/003087?text=FOTO+15';">
+                    <div class="p-3 text-sm text-gray-700 font-medium border-t border-gray-100">
+                        Encuentro con líderes en Morales, Bolívar.
+                    </div>
+                </div>
+
+                <!-- Bloque de Imagen 16 -->
+                <div class="rounded-lg overflow-hidden shadow-xl transition duration-300 transform hover:scale-[1.02] bg-white border border-gray-200">
+                    <!-- El código busca 'trabajo_social_16.jpg' -->
+                    <img src="trabajo_social_16.jpg" alt="Campaña del Nuevo Liberalismo" class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/400x400/003087/ffffff?text=FOTO+16';">
+                    <div class="p-3 text-sm text-gray-700 font-medium border-t border-gray-100">
+                        Promoviendo los valores del Nuevo Liberalismo.
+                    </div>
+                </div>
+
+                <!-- Bloque de Imagen 17 -->
+                <div class="rounded-lg overflow-hidden shadow-xl transition duration-300 transform hover:scale-[1.02] bg-white border border-gray-200">
+                    <!-- El código busca 'trabajo_social_17.jpg' -->
+                    <img src="trabajo_social_17.jpg" alt="Apoyo a la economía solidaria" class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/400x400/c8102e/ffffff?text=FOTO+17';">
+                    <div class="p-3 text-sm text-gray-700 font-medium border-t border-gray-100">
+                        Fomentando la cooperación económica local.
+                    </div>
+                </div>
+
+                <!-- Bloque de Imagen 18 -->
+                <div class="rounded-lg overflow-hidden shadow-xl transition duration-300 transform hover:scale-[1.02] bg-white border border-gray-200">
+                    <!-- El código busca 'trabajo_social_18.jpg' -->
+                    <img src="trabajo_social_18.jpg" alt="Trabajando en el barrio Morelis" class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/400x400/fcd116/003087?text=FOTO+18';">
+                    <div class="p-3 text-sm text-gray-700 font-medium border-t border-gray-100">
+                        En mi barrio, Morelis, recordando mis raíces.
+                    </div>
+                </div>
+
+                <!-- Bloque de Imagen 19 -->
+                <div class="rounded-lg overflow-hidden shadow-xl transition duration-300 transform hover:scale-[1.02] bg-white border border-gray-200">
+                    <!-- El código busca 'trabajo_social_19.jpg' -->
+                    <img src="trabajo_social_19.jpg" alt="Promoviendo la educación en Aguachica" class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/400x400/003087/ffffff?text=FOTO+19';">
+                    <div class="p-3 text-sm text-gray-700 font-medium border-t border-gray-100">
+                        Recuerdos de mi etapa de formación en Aguachica.
+                    </div>
+                </div>
+
+                <!-- Bloque de Imagen 20 -->
+                <div class="rounded-lg overflow-hidden shadow-xl transition duration-300 transform hover:scale-[1.02] bg-white border border-gray-200">
+                    <!-- El código busca 'trabajo_social_20.jpg' -->
+                    <img src="trabajo_social_20.jpg" alt="Visión de Futuro y Tecnología" class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/400x400/c8102e/ffffff?text=FOTO+20';">
+                    <div class="p-3 text-sm text-gray-700 font-medium border-t border-gray-100">
+                        Mirando al futuro con la bandera de Colombia.
+                    </div>
+                </div>
+
+            </div> <!-- Fin de la Cuadrícula -->
+
+            <!-- Botón para regresar a la página principal -->
+            <div class="mt-12 text-center">
+                <a href="#propuestas" class="inline-block bg-[var(--color-secondary)] hover:bg-blue-800 text-white text-xl font-bold py-3 px-10 rounded-full shadow-lg transition duration-300 transform hover:translate-y-[-2px] focus:ring-4 focus:ring-blue-300">
+                    Regresar a Propuestas
+                </a>
+            </div>
+        </section>
+
+
+    </main>
+
+    <!-- 8. FOOTER -->
+    <footer class="bg-[var(--color-secondary)] text-white mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-lg font-bold mb-2">Juan Carlos Núñez | Senado de la República</p>
+            <p class="text-sm" style="color: var(--color-accent);">Partido Nuevo Liberalismo</p>
+            <p class="text-sm mt-1">"Cuando todos avanzamos gana Colombia"</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript para la funcionalidad móvil y scroll suave -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.getElementById('menu-toggle');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            // 1. Alternar menú móvil al hacer clic en el botón
+            menuToggle.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // 2. Ocultar menú móvil al hacer clic en un enlace (para navegar)
+            const mobileLinks = mobileMenu.querySelectorAll('a');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
+            // 3. Efecto de scroll suave para la navegación (funciona para anclas como #propuestas)
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
