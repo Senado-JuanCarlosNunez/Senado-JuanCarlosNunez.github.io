@@ -38,6 +38,38 @@
             width: 100%;
             height: 100%;
         }
+        /* Contenedor específico para el tarjetón para asegurar que el zoom no cause desplazamiento */
+        .tarjeton-container {
+            overflow: hidden; /* Esto recorta cualquier cosa que se salga del contenedor */
+            border-radius: 0.5rem; /* rounded-lg */
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); /* shadow-2xl */
+        }
+        
+        /* ESTILO PARA LA IMAGEN PRINCIPAL (SECCIÓN #inicio) */
+        #inicio img {
+            transition: transform 0.5s ease-in-out; /* Transición suave */
+            cursor: pointer; /* Cambia el cursor a una mano */
+        }
+        #inicio img:hover {
+            transform: scale(1.1); /* Aplica un zoom más moderado (10%) para el HERO */
+        }
+
+        /* CORRECCIÓN DEFINITIVA PARA FORZAR EL ZOOM EN EL TARJETÓN */
+        .tarjeton-container img {
+            transition: transform 0.5s ease-in-out; /* Transición suave */
+            cursor: pointer; /* Cambia el cursor a una mano para indicar interactividad */
+        }
+        .tarjeton-container img:hover {
+            transform: scale(1.3); /* Aplica el zoom del 30% al pasar el ratón */
+        }
+        /* FIN DE CORRECCIÓN */
+
+        /* Ajustamos el tamaño del contenedor para dispositivos medianos */
+        @media (min-width: 768px) {
+            .tarjeton-container {
+                max-width: 600px; /* Ajuste para escritorio */
+            }
+        }
     </style>
 </head>
 <body class="text-gray-800">
@@ -83,18 +115,24 @@
             <div class="max-w-4xl mx-auto">
                 <!-- Imagen de Campaña/Perfil -->
                 <div class="relative inline-block mb-6 w-full max-w-lg mx-auto">
-                    <!-- Referencia a la imagen subida, con fallback -->
-                    <img src="IMAGEN DE CAMPAÑA AL SENADO DE LA REPUBLICA DE COLOMBIA.jpg" alt="Imagen de Campaña Juan Carlos Núñez"
-                         class="w-full object-cover mx-auto shadow-lg border-4 border-white transition duration-500 transform hover:scale-105 rounded-lg"
-                         onerror="this.onerror=null; this.src='https://placehold.co/800x400/fcd116/003087?text=IMAGEN+DE+CAMPA%C3%91A';">
+                    <!-- 
+                        NOTA: Se asume que el usuario reemplazará el archivo existente
+                        'IMAGEN DE CAMPAÑA AL SENADO DE LA REPUBLICA DE COLOMBIA.jpg' 
+                        por el nuevo diseño de la COALICIÓN AHORA COLOMBIA.
+                    -->
+                    <!-- Se eliminan las clases hover:scale-105 y transition duration-500 transform para usar el CSS explícito -->
+                    <img src="IMAGEN DE CAMPAÑA AL SENADO DE LA REPUBLICA DE COLOMBIA.jpg" alt="Juan Carlos Núñez - Coalición Ahora Colombia"
+                         class="w-full object-cover mx-auto shadow-lg border-4 border-white rounded-lg"
+                         onerror="this.onerror=null; this.src='https://placehold.co/800x400/fcd116/003087?text=IMAGEN+COALICION';">
                 </div>
-
-                <p class="text-xl font-bold mb-1" style="color: var(--color-secondary);">Candidato al Senado de la República</p>
                 
-                <!-- Nombre del Candidato - TAMAÑO REDUCIDO -->
+                <!-- Nombre del Candidato - TAMAÑO GRANDE Y PRIORITARIO -->
                 <h1 class="text-5xl md:text-6xl font-black mb-4 leading-tight text-gray-900">
                     JUAN CARLOS NÚÑEZ
                 </h1>
+
+                <!-- TEXTO ACTUALIZADO: EL ROL VA DESPUÉS DEL NOMBRE -->
+                <p class="text-xl font-bold mb-1" style="color: var(--color-secondary);">Candidato al Senado de la República de Colombia</p>
                 
                 <!-- Eslogan con colores personalizados y SIGNOS DE ADMIRACIÓN (AJUSTADO) -->
                 <p class="text-2xl md:text-3xl font-extrabold mb-8">
@@ -121,16 +159,17 @@
                 <h2 class="text-4xl md:text-5xl font-extrabold mb-6 border-b-4 border-[var(--color-primary)] inline-block pb-2">
                     ¡Marca Así al Senado!
                 </h2>
-                <p class="text-xl font-medium mb-8">
-                    Tu voto es para el <strong>Nuevo Liberalismo</strong> y el número <strong>84</strong>.
-                </p>
+                <!-- LÍNEA DE TEXTO FUE ELIMINADA para mayor enfoque visual en la imagen (Tarjetón) -->
                 
-                <!-- Contenedor de la Imagen del Tarjetón -->
-                <div class="relative inline-block w-full max-w-2xl mx-auto">
-                    <!-- Imagen del Tarjetón (AQUÍ SE APLICAN LOS EFECTOS) -->
-                    <img src="Tarjeton listo 8 de diciembre.jpg" alt="Instrucción de cómo marcar el Tarjetón al Senado, logo y número 84"
-                         class="w-full h-auto object-contain mx-auto shadow-2xl border-4 border-[var(--color-accent)] rounded-lg transition duration-500 transform hover:scale-105"
-                         onerror="this.onerror=null; this.src='https://placehold.co/800x500/c8102e/ffffff?text=IMAGEN+DE+INSTRUCCION+TARJET%C3%93N+';">
+                <!-- Contenedor de la Imagen del Tarjetón - Contenedor Principal -->
+                <div class="flex justify-center">
+                    <!-- Contenedor con overflow:hidden y max-width para evitar el desplazamiento horizontal -->
+                    <div class="tarjeton-container relative inline-block w-full max-w-2xl mx-auto">
+                        <!-- Imagen del Tarjetón. El zoom se aplica mediante el CSS explícito. -->
+                        <img src="Tarjeton listo 8 de diciembre.jpg" alt="Instrucción de cómo marcar el Tarjetón al Senado, logo y número 84"
+                             class="w-full h-auto object-contain mx-auto border-4 border-[var(--color-accent)] rounded-lg"
+                             onerror="this.onerror=null; this.src='https://placehold.co/800x500/c8102e/ffffff?text=IMAGEN+DE+INSTRUCCION+TARJET%C3%93N+';">
+                    </div>
                 </div>
             </div>
         </section>
@@ -261,7 +300,7 @@
         </section>
 
         <!-- 5. SECCIÓN DE GALERÍA DESTACADA (id="galeria" - Breve) -->
-        <section id="galeria" class="py-20 bg-gray-100 rounded-xl shadow-xl p-8 mt-10 text-center">
+        <section id="galeria" class="py-20 bg-gray-100 rounded-xl shadow-xl p-8 mt-10 p-8 text-center">
             <h2 class="text-4xl font-extrabold text-[var(--color-dark)] mb-6 border-b-4 border-[var(--color-secondary)] pb-2 max-w-xl mx-auto">
                 Mi Trayectoria Visual
             </h2>
