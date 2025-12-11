@@ -33,10 +33,14 @@
         }
         /* Estilo para las imágenes de la galería (para asegurar que tengan el mismo tamaño) */
         .gallery-img {
-            aspect-ratio: 1 / 1; /* Hace que las imágenes sean cuadradas */
+            /* Mantenemos aspect-ratio para que todas las fotos se vean del mismo tamaño */
+            aspect-ratio: 4 / 3; 
+            /* CAMBIO REALIZADO: Vuelve a object-fit: cover para el efecto de 'zoom' / relleno completo */
             object-fit: cover;
             width: 100%;
             height: 100%;
+            /* Transición de zoom: ELIMINADA para 3D, ya que la rotación se encarga del movimiento */
+            transition: opacity 0.3s ease-in-out;
         }
         /* Contenedor específico para el tarjetón para asegurar que el zoom no cause desplazamiento */
         .tarjeton-container {
@@ -70,7 +74,69 @@
                 max-width: 600px; /* Ajuste para escritorio */
             }
         }
+        /* Estilo para asegurar que el widget de Facebook se ajuste al contenedor */
+        .facebook-widget-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 1rem; /* Margen superior ajustado */
+        }
+        /* Aseguramos que el widget de Facebook use todo el ancho del contenedor */
+        .fb-page {
+            width: 100%; 
+        }
+
+        /* --- Estilos específicos para el Carrusel 3D (Cilindro) --- */
+        .carousel-container-outer { 
+            position: relative;
+            max-width: 800px; 
+            margin: auto;
+            overflow: visible; /* Debe ser visible para que la perspectiva 3D funcione */
+            border-radius: 0.75rem;
+            box-shadow: none; /* Quitamos sombra para que el efecto 3D se vea limpio */
+            perspective: 1000px; /* Profundidad para la vista 3D */
+            display: flex; /* Para centrar el contenedor interno */
+            justify-content: center;
+            align-items: center;
+        }
+        .carousel-slide { /* Este es el cilindro que rota */
+            position: relative;
+            width: 400px; /* Ancho fijo para el cilindro */
+            height: 300px; /* Altura del cilindro (REDUCIDO) */
+            transform-style: preserve-3d; /* Clave para 3D */
+            transition: transform 0.8s ease-in-out; /* Movimiento de rotación */
+        }
+        /* Altura adaptativa */
+        @media (min-width: 768px) {
+            .carousel-slide {
+                height: 350px; /* Altura para escritorio (REDUCIDO) */
+                width: 500px; /* Más ancho en escritorio */
+            }
+        }
+        .carousel-slide-item { /* Cada imagen, posicionada en el perímetro */
+            position: absolute; 
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden; /* Oculta el reverso */
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3); /* Sombra para el efecto de flotación */
+            background-color: white;
+            overflow: hidden;
+            border: 2px solid var(--color-primary); /* Borde amarillo para destacarla */
+        }
+
+        /* Efecto de Zoom y Opacidad al pasar el ratón (ajustado para 3D) */
+        .carousel-slide-item .gallery-img:hover {
+            opacity: 0.9;
+        }
+        /* --- Fin Estilos Carrusel 3D --- */
     </style>
+    <!-- 
+        1. CÓDIGO DE INICIALIZACIÓN DE FACEBOOK (JS SDK) 
+    -->
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/es_ES/sdk.js#xfbml=1&version=v18.0" nonce="[GENERAR-NUEVO-NONCE]"></script>
 </head>
 <body class="text-gray-800">
 
@@ -115,12 +181,7 @@
             <div class="max-w-4xl mx-auto">
                 <!-- Imagen de Campaña/Perfil -->
                 <div class="relative inline-block mb-6 w-full max-w-lg mx-auto">
-                    <!-- 
-                        NOTA: Se asume que el usuario reemplazará el archivo existente
-                        'IMAGEN DE CAMPAÑA AL SENADO DE LA REPUBLICA DE COLOMBIA.jpg' 
-                        por el nuevo diseño de la COALICIÓN AHORA COLOMBIA.
-                    -->
-                    <!-- Se eliminan las clases hover:scale-105 y transition duration-500 transform para usar el CSS explícito -->
+                    <!-- El zoom se aplica mediante el CSS explícito (#inicio img:hover) -->
                     <img src="IMAGEN DE CAMPAÑA AL SENADO DE LA REPUBLICA DE COLOMBIA.jpg" alt="Juan Carlos Núñez - Coalición Ahora Colombia"
                          class="w-full object-cover mx-auto shadow-lg border-4 border-white rounded-lg"
                          onerror="this.onerror=null; this.src='https://placehold.co/800x400/fcd116/003087?text=IMAGEN+COALICION';">
@@ -159,7 +220,6 @@
                 <h2 class="text-4xl md:text-5xl font-extrabold mb-6 border-b-4 border-[var(--color-primary)] inline-block pb-2">
                     ¡Marca Así al Senado!
                 </h2>
-                <!-- LÍNEA DE TEXTO FUE ELIMINADA para mayor enfoque visual en la imagen (Tarjetón) -->
                 
                 <!-- Contenedor de la Imagen del Tarjetón - Contenedor Principal -->
                 <div class="flex justify-center">
@@ -308,7 +368,7 @@
                 Mira mi trabajo social, mis raíces y mi compromiso en imágenes.
             </p>
 
-            <!-- 4 Imágenes Destacadas (Placeholders) -->
+            <!-- 4 Imágenes Destacadas (Grid) -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto">
                 <!-- Usamos las primeras 4 fotos de la galería completa -->
                 <img src="trabajo_social_01.jpg" alt="Foto de trabajo social" class="w-full h-40 object-cover rounded-lg shadow-md hover:opacity-90 transition duration-300" onerror="this.onerror=null; this.src='https://placehold.co/400x400/003087/ffffff?text=FOTO+1';">
@@ -319,8 +379,8 @@
             
             <!-- Botón para ir a la Galería Completa (Ahora apunta a una sección interna) -->
             <div class="mt-12">
-                <a href="#galeria-completa" class="inline-block bg-[var(--color-accent)] hover:bg-red-700 text-white text-xl font-bold py-3 px-10 rounded-full shadow-lg transition duration-300 transform hover:translate-y-[-2px] focus:ring-4 focus:ring-red-300">
-                    Ver Galería Completa (+20 Fotos)
+                <a href="#galeria-completa" class="inline-block bg-[var(--color-secondary)] hover:bg-blue-800 text-white text-xl font-bold py-3 px-10 rounded-full shadow-lg transition duration-300 transform hover:translate-y-[-2px] focus:ring-4 focus:ring-blue-300">
+                    Ver Galería Completa
                 </a>
             </div>
         </section>
@@ -334,24 +394,53 @@
                 Tu voz es importante para la construcción de una Colombia donde todos avancemos. Escríbeme.
             </p>
             
-            <!-- Contactos Actualizados -->
-            <div class="flex flex-col md:flex-row justify-center space-y-6 md:space-y-0 md:space-x-8">
+            <!-- Contenedor Flex para contactos y widget de Facebook -->
+            <div class="flex flex-col md:flex-row justify-center space-y-10 md:space-y-0 md:space-x-8">
                 
-                <!-- Teléfono/WhatsApp Actualizado -->
-                <a href="https://wa.me/573223061578" target="_blank" class="flex items-center justify-center p-4 bg-green-500 text-white rounded-lg shadow-lg hover:bg-green-600 transition duration-300 w-full md:w-auto">
-                    <span class="text-xl font-bold">WhatsApp (322 306 1578)</span>
-                </a>
+                <!-- Columna 1: Contactos tradicionales (Teléfono/Email) -->
+                <div class="flex flex-col space-y-6 w-full md:w-1/3">
+                    <!-- Teléfono/WhatsApp Actualizado -->
+                    <a href="https://wa.me/573223061578" target="_blank" class="flex items-center justify-center p-4 bg-green-500 text-white rounded-lg shadow-lg hover:bg-green-600 transition duration-300 w-full">
+                        <span class="text-xl font-bold">WhatsApp (322 306 1578)</span>
+                    </a>
 
-                <!-- Correo Electrónico Actualizado -->
-                <a href="mailto:juancnunez.participacion@gmail.com" class="flex items-center justify-center p-4 bg-gray-700 text-white rounded-lg shadow-lg hover:bg-gray-800 transition duration-300 w-full md:w-auto">
-                    <span class="text-xl font-bold">Correo: juancnunez.participacion@gmail.com</span>
-                </a>
+                    <!-- Correo Electrónico Actualizado -->
+                    <a href="mailto:juancnunez.participacion@gmail.com" class="flex items-center justify-center p-4 bg-gray-700 text-white rounded-lg shadow-lg hover:bg-gray-800 transition duration-300 w-full">
+                        <span class="text-xl font-bold">Correo: juancnunez.participacion@gmail.com</span>
+                    </a>
+                </div>
+
+                <!-- Columna 2: Widget de Facebook INTEGRADO -->
+                <div class="w-full md:w-1/3 bg-gray-100 p-4 rounded-xl shadow-inner border border-gray-200">
+                    <h3 class="text-2xl font-bold text-[var(--color-secondary)] mb-4">
+                        ¡Síguenos en Facebook!
+                    </h3>
+                    <p class="text-sm text-gray-600 mb-4">
+                        Conéctate con la campaña "Gente Que Lucha País Que Avanza".
+                    </p>
+                    
+                    <div class="facebook-widget-container">
+                        <!-- CÓDIGO DEL PAGE PLUGIN DE FACEBOOK -->
+                        <div class="fb-page" 
+                            data-href="https://www.facebook.com/GenteQueLuchaPaisQueAvanza" 
+                            data-tabs="timeline" 
+                            data-width="340" 
+                            data-height="250" 
+                            data-adapt-container-width="true" 
+                            data-hide-cover="false" 
+                            data-show-facepile="true">
+                            <blockquote cite="https://www.facebook.com/GenteQueLuchaPaisQueAvanza" class="fb-xfbml-parse-ignore">
+                                <a href="https://www.facebook.com/GenteQueLuchaPaisQueAvanza">Gente Que Lucha País Que Avanza</a>
+                            </blockquote>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-
             <p class="mt-8 text-sm text-gray-500"></p>
         </section>
         
-        <!-- 7. SECCIÓN DE GALERÍA COMPLETA (Combinación de galeria.html) -->
+        <!-- 7. SECCIÓN DE GALERÍA COMPLETA (CARRUSEL 3D CILÍNDRICO) -->
         <section id="galeria-completa" class="py-20 bg-gray-100 rounded-xl shadow-xl p-8 mt-10">
             
             <!-- Botón para regresar al inicio/propuestas -->
@@ -361,201 +450,169 @@
                 </a>
             </div>
 
-            <!-- Título de la Galería -->
+            <!-- Título de la Galería (SOLO SUBTÍTULO) -->
             <div class="text-center mb-12">
-                <h2 class="text-5xl font-extrabold text-[var(--color-secondary)] mb-4">
+                <p class="text-2xl font-extrabold text-[var(--color-secondary)] mb-4">
                     Trayectoria Visual y Compromiso
-                </h2>
-                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-                    Una mirada en imágenes a mi trabajo social, mis raíces y mi compromiso con el desarrollo de nuestras comunidades.
+                </p>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                    Explora mi trabajo social y mi historia en esta galería de imágenes giratoria.
                 </p>
             </div>
 
-            <!-- Contenedor de la Galería (20 Imágenes) -->
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <!-- Contenedor del Carrusel (Outer Wrapper) con perspectiva 3D -->
+            <div id="image-carousel-container" class="carousel-container-outer max-w-3xl mx-auto">
                 
-                <!-- Bloque de Imagen 1 -->
-                <div class="rounded-lg overflow-hidden shadow-xl transition duration-300 transform hover:scale-[1.02] bg-white border border-gray-200">
-                    <!-- El código busca 'trabajo_social_01.jpg' -->
-                    <img src="trabajo_social_01.jpg" alt="Entrega de equipos a la comunidad" class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/400x400/003087/ffffff?text=FOTO+1';">
-                    <div class="p-3 text-sm text-gray-700 font-medium border-t border-gray-100">
-                        Trabajo social y entrega de equipos en la fundación.
+                <!-- Contenedor del Cilindro (gira) -->
+                <div class="carousel-slide" id="slides-container">
+                    
+                    <!-- Item 1 (Slide) -->
+                    <div class="carousel-slide-item">
+                        <img src="trabajo_social_01.jpg" alt="Trabajo social y entrega de equipos a la comunidad." class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/800x600/003087/ffffff?text=FOTO+1';">
                     </div>
-                </div>
 
-                <!-- Bloque de Imagen 2 -->
-                <div class="rounded-lg overflow-hidden shadow-xl transition duration-300 transform hover:scale-[1.02] bg-white border border-gray-200">
-                    <!-- El código busca 'trabajo_social_02.jpg' -->
-                    <img src="trabajo_social_02.jpg" alt="Reunión con líderes comunales" class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/400x400/c8102e/ffffff?text=FOTO+2';">
-                    <div class="p-3 text-sm text-gray-700 font-medium border-t border-gray-100">
-                        Asesorando líderes de Juntas de Acción Comunal.
+                    <!-- Item 2 -->
+                    <div class="carousel-slide-item">
+                        <img src="trabajo_social_02.jpg" alt="Asesorando líderes de Juntas de Acción Comunal." class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/800x600/c8102e/ffffff?text=FOTO+2';">
                     </div>
-                </div>
 
-                <!-- Bloque de Imagen 3 -->
-                <div class="rounded-lg overflow-hidden shadow-xl transition duration-300 transform hover:scale-[1.02] bg-white border border-gray-200">
-                    <!-- El código busca 'trabajo_social_03.jpg' -->
-                    <img src="trabajo_social_03.jpg" alt="Apoyo a emprendedores locales" class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/400x400/fcd116/003087?text=FOTO+3';">
-                    <div class="p-3 text-sm text-gray-700 font-medium border-t border-gray-100">
-                        Impulsando emprendimientos y negocios locales.
+                    <!-- Item 3 -->
+                    <div class="carousel-slide-item">
+                        <img src="trabajo_social_03.jpg" alt="Impulsando emprendimientos y negocios locales." class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/800x600/fcd116/003087?text=FOTO+3';">
                     </div>
-                </div>
 
-                <!-- Bloque de Imagen 4 -->
-                <div class="rounded-lg overflow-hidden shadow-xl transition duration-300 transform hover:scale-[1.02] bg-white border border-gray-200">
-                    <!-- El código busca 'trabajo_social_04.jpg' -->
-                    <img src="trabajo_social_04.jpg" alt="Visita a la vereda La Labranza" class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/400x400/003087/ffffff?text=FOTO+4';">
-                    <div class="p-3 text-sm text-gray-700 font-medium border-t border-gray-100">
-                        Recorriendo La Labranza, donde inició mi camino.
+                    <!-- Item 4 -->
+                    <div class="carousel-slide-item">
+                        <img src="trabajo_social_04.jpg" alt="Recorriendo La Labranza, donde inició mi camino." class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/800x600/003087/ffffff?text=FOTO+4';">
                     </div>
-                </div>
 
-                <!-- Bloque de Imagen 5 -->
-                <div class="rounded-lg overflow-hidden shadow-xl transition duration-300 transform hover:scale-[1.02] bg-white border border-gray-200">
-                    <!-- El código busca 'trabajo_social_05.jpg' -->
-                    <img src="trabajo_social_05.jpg" alt="Reunión con jóvenes SENA" class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/400x400/c8102e/ffffff?text=FOTO+5';">
-                    <div class="p-3 text-sm text-gray-700 font-medium border-t border-gray-100">
-                        Fomentando la educación técnica con jóvenes SENA.
+                    <!-- Item 5 -->
+                    <div class="carousel-slide-item">
+                        <img src="trabajo_social_05.jpg" alt="Fomentando la educación técnica con jóvenes SENA." class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/800x600/c8102e/ffffff?text=FOTO+5';">
                     </div>
-                </div>
 
-                <!-- Bloque de Imagen 6 -->
-                <div class="rounded-lg overflow-hidden shadow-xl transition duration-300 transform hover:scale-[1.02] bg-white border border-gray-200">
-                    <!-- El código busca 'trabajo_social_06.jpg' -->
-                    <img src="trabajo_social_06.jpg" alt="Trabajo con tecnología y seguridad" class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/400x400/fcd116/003087?text=FOTO+6';">
-                    <div class="p-3 text-sm text-gray-700 font-medium border-t border-gray-100">
-                        Instalando sistemas de seguridad (CCTV) en la comunidad.
+                    <!-- Item 6 -->
+                    <div class="carousel-slide-item">
+                        <img src="trabajo_social_06.jpg" alt="Instalando sistemas de seguridad (CCTV) en la comunidad." class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/800x600/fcd116/003087?text=FOTO+6';">
                     </div>
-                </div>
 
-                <!-- Bloque de Imagen 7 -->
-                <div class="rounded-lg overflow-hidden shadow-xl transition duration-300 transform hover:scale-[1.02] bg-white border border-gray-200">
-                    <!-- El código busca 'trabajo_social_07.jpg' -->
-                    <img src="trabajo_social_07.jpg" alt="Interacción con niños en el barrio" class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/400x400/003087/ffffff?text=FOTO+7';">
-                    <div class="p-3 text-sm text-gray-700 font-medium border-t border-gray-100">
-                        Promoviendo la lectura en la fundación infantil.
+                    <!-- Item 7 -->
+                    <div class="carousel-slide-item">
+                        <img src="trabajo_social_07.jpg" alt="Promoviendo la lectura en la fundación infantil." class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/800x600/003087/ffffff?text=FOTO+7';">
                     </div>
-                </div>
 
-                <!-- Bloque de Imagen 8 -->
-                <div class="rounded-lg overflow-hidden shadow-xl transition duration-300 transform hover:scale-[1.02] bg-white border border-gray-200">
-                    <!-- El código busca 'trabajo_social_08.jpg' -->
-                    <img src="trabajo_social_08.jpg" alt="Asesoría de proyectos a JAC" class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/400x400/c8102e/ffffff?text=FOTO+8';">
-                    <div class="p-3 text-sm text-gray-700 font-medium border-t border-gray-100">
-                        Orientación para la gestión de proyectos comunitarios.
+                    <!-- Item 8 -->
+                    <div class="carousel-slide-item">
+                        <img src="trabajo_social_08.jpg" alt="Orientación para la gestión de proyectos comunitarios." class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/800x600/c8102e/ffffff?text=FOTO+8';">
                     </div>
-                </div>
 
-                <!-- Bloque de Imagen 9 -->
-                <div class="rounded-lg overflow-hidden shadow-xl transition duration-300 transform hover:scale-[1.02] bg-white border border-gray-200">
-                    <!-- El código busca 'trabajo_social_09.jpg' -->
-                    <img src="trabajo_social_09.jpg" alt="Trabajando en el área de informática" class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/400x400/fcd116/003087?text=FOTO+9';">
-                    <div class="p-3 text-sm text-gray-700 font-medium border-t border-gray-100">
-                        Mi experiencia como técnico en informática y reparación.
+                    <!-- Item 9 -->
+                    <div class="carousel-slide-item">
+                        <img src="trabajo_social_09.jpg" alt="Mi experiencia como técnico en informática y reparación." class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/800x600/fcd116/003087?text=FOTO+9';">
                     </div>
-                </div>
 
-                <!-- Bloque de Imagen 10 -->
-                <div class="rounded-lg overflow-hidden shadow-xl transition duration-300 transform hover:scale-[1.02] bg-white border border-gray-200">
-                    <!-- El código busca 'trabajo_social_10.jpg' -->
-                    <img src="trabajo_social_10.jpg" alt="Encuentro con familias de Cúcuta" class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/400x400/003087/ffffff?text=FOTO+10';">
-                    <div class="p-3 text-sm text-gray-700 font-medium border-t border-gray-100">
-                        Escuchando las necesidades de las familias colombianas.
+                    <!-- Item 10 -->
+                    <div class="carousel-slide-item">
+                        <img src="trabajo_social_10.jpg" alt="Escuchando las necesidades de las familias colombianas." class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/800x600/003087/ffffff?text=FOTO+10';">
                     </div>
-                </div>
 
-                <!-- Bloque de Imagen 11 -->
-                <div class="rounded-lg overflow-hidden shadow-xl transition duration-300 transform hover:scale-[1.02] bg-white border border-gray-200">
-                    <!-- El código busca 'trabajo_social_11.jpg' -->
-                    <img src="trabajo_social_11.jpg" alt="Recorrido por Ocaña y la región" class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/400x400/c8102e/ffffff?text=FOTO+11';">
-                    <div class="p-3 text-sm text-gray-700 font-medium border-t border-gray-100">
-                        Conociendo de cerca las realidades de Ocaña.
+                    <!-- Item 11 -->
+                    <div class="carousel-slide-item">
+                        <img src="trabajo_social_11.jpg" alt="Conociendo de cerca las realidades de Ocaña." class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/800x600/c8102e/ffffff?text=FOTO+11';">
                     </div>
-                </div>
 
-                <!-- Bloque de Imagen 12 -->
-                <div class="rounded-lg overflow-hidden shadow-xl transition duration-300 transform hover:scale-[1.02] bg-white border border-gray-200">
-                    <!-- El código busca 'trabajo_social_12.jpg' -->
-                    <img src="trabajo_social_12.jpg" alt="En Bucaramanga validando mi formación" class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/400x400/fcd116/003087?text=FOTO+12';">
-                    <div class="p-3 text-sm text-gray-700 font-medium border-t border-gray-100">
-                        Mi logro de graduación como bachiller en Bucaramanga.
+                    <!-- Item 12 -->
+                    <div class="carousel-slide-item">
+                        <img src="trabajo_social_12.jpg" alt="Mi logro de graduación como bachiller en Bucaramanga." class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/800x600/fcd116/003087?text=FOTO+12';">
                     </div>
-                </div>
 
-                <!-- Bloque de Imagen 13 -->
-                <div class="rounded-lg overflow-hidden shadow-xl transition duration-300 transform hover:scale-[1.02] bg-white border border-gray-200">
-                    <!-- El código busca 'trabajo_social_13.jpg' -->
-                    <img src="trabajo_social_13.jpg" alt="Trabajando con organizaciones internacionales" class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/400x400/003087/ffffff?text=FOTO+13';">
-                    <div class="p-3 text-sm text-gray-700 font-medium border-t border-gray-100">
-                        Facilitando ayuda con organizaciones internacionales.
+                    <!-- Item 13 -->
+                    <div class="carousel-slide-item">
+                        <img src="trabajo_social_13.jpg" alt="Facilitando ayuda con organizaciones internacionales." class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/800x600/003087/ffffff?text=FOTO+13';">
                     </div>
-                </div>
 
-                <!-- Bloque de Imagen 14 -->
-                <div class="rounded-lg overflow-hidden shadow-xl transition duration-300 transform hover:scale-[1.02] bg-white border border-gray-200">
-                    <!-- El código busca 'trabajo_social_14.jpg' -->
-                    <img src="trabajo_social_14.jpg" alt="Fomentando la participación ciudadana" class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/400x400/c8102e/ffffff?text=FOTO+14';">
-                    <div class="p-3 text-sm text-gray-700 font-medium border-t border-gray-100">
-                        Creando espacios de consulta con la ciudadanía.
+                    <!-- Item 14 -->
+                    <div class="carousel-slide-item">
+                        <img src="trabajo_social_14.jpg" alt="Creando espacios de consulta con la ciudadanía." class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/800x600/c8102e/ffffff?text=FOTO+14';">
                     </div>
-                </div>
 
-                <!-- Bloque de Imagen 15 -->
-                <div class="rounded-lg overflow-hidden shadow-xl transition duration-300 transform hover:scale-[1.02] bg-white border border-gray-200">
-                    <!-- El código busca 'trabajo_social_15.jpg' -->
-                    <img src="trabajo_social_15.jpg" alt="Visita a Morales, Bolívar" class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/400x400/fcd116/003087?text=FOTO+15';">
-                    <div class="p-3 text-sm text-gray-700 font-medium border-t border-gray-100">
-                        Encuentro con líderes en Morales, Bolívar.
+                    <!-- Item 15 -->
+                    <div class="carousel-slide-item">
+                        <img src="trabajo_social_15.jpg" alt="Encuentro con líderes en Morales, Bolívar." class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/800x600/fcd116/003087?text=FOTO+15';">
                     </div>
-                </div>
 
-                <!-- Bloque de Imagen 16 -->
-                <div class="rounded-lg overflow-hidden shadow-xl transition duration-300 transform hover:scale-[1.02] bg-white border border-gray-200">
-                    <!-- El código busca 'trabajo_social_16.jpg' -->
-                    <img src="trabajo_social_16.jpg" alt="Campaña del Nuevo Liberalismo" class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/400x400/003087/ffffff?text=FOTO+16';">
-                    <div class="p-3 text-sm text-gray-700 font-medium border-t border-gray-100">
-                        Promoviendo los valores del Nuevo Liberalismo.
+                    <!-- Item 16 -->
+                    <div class="carousel-slide-item">
+                        <img src="trabajo_social_16.jpg" alt="Promoviendo los valores del Nuevo Liberalismo." class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/800x600/003087/ffffff?text=FOTO+16';">
                     </div>
-                </div>
 
-                <!-- Bloque de Imagen 17 -->
-                <div class="rounded-lg overflow-hidden shadow-xl transition duration-300 transform hover:scale-[1.02] bg-white border border-gray-200">
-                    <!-- El código busca 'trabajo_social_17.jpg' -->
-                    <img src="trabajo_social_17.jpg" alt="Apoyo a la economía solidaria" class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/400x400/c8102e/ffffff?text=FOTO+17';">
-                    <div class="p-3 text-sm text-gray-700 font-medium border-t border-gray-100">
-                        Fomentando la cooperación económica local.
+                    <!-- Item 17 -->
+                    <div class="carousel-slide-item">
+                        <img src="trabajo_social_17.jpg" alt="Fomentando la cooperación económica local." class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/800x600/c8102e/ffffff?text=FOTO+17';">
                     </div>
-                </div>
 
-                <!-- Bloque de Imagen 18 -->
-                <div class="rounded-lg overflow-hidden shadow-xl transition duration-300 transform hover:scale-[1.02] bg-white border border-gray-200">
-                    <!-- El código busca 'trabajo_social_18.jpg' -->
-                    <img src="trabajo_social_18.jpg" alt="Trabajando en el barrio Morelis" class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/400x400/fcd116/003087?text=FOTO+18';">
-                    <div class="p-3 text-sm text-gray-700 font-medium border-t border-gray-100">
-                        En mi barrio, Morelis, recordando mis raíces.
+                    <!-- Item 18 -->
+                    <div class="carousel-slide-item">
+                        <img src="trabajo_social_18.jpg" alt="En mi barrio, Morelis, recordando mis raíces." class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/800x600/fcd116/003087?text=FOTO+18';">
                     </div>
-                </div>
 
-                <!-- Bloque de Imagen 19 -->
-                <div class="rounded-lg overflow-hidden shadow-xl transition duration-300 transform hover:scale-[1.02] bg-white border border-gray-200">
-                    <!-- El código busca 'trabajo_social_19.jpg' -->
-                    <img src="trabajo_social_19.jpg" alt="Promoviendo la educación en Aguachica" class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/400x400/003087/ffffff?text=FOTO+19';">
-                    <div class="p-3 text-sm text-gray-700 font-medium border-t border-gray-100">
-                        Recuerdos de mi etapa de formación en Aguachica.
+                    <!-- Item 19 -->
+                    <div class="carousel-slide-item">
+                        <img src="trabajo_social_19.jpg" alt="Recuerdos de mi etapa de formación en Aguachica." class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/800x600/003087/ffffff?text=FOTO+19';">
                     </div>
-                </div>
 
-                <!-- Bloque de Imagen 20 -->
-                <div class="rounded-lg overflow-hidden shadow-xl transition duration-300 transform hover:scale-[1.02] bg-white border border-gray-200">
-                    <!-- El código busca 'trabajo_social_20.jpg' -->
-                    <img src="trabajo_social_20.jpg" alt="Visión de Futuro y Tecnología" class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/400x400/c8102e/ffffff?text=FOTO+20';">
-                    <div class="p-3 text-sm text-gray-700 font-medium border-t border-gray-100">
-                        Mirando al futuro con la bandera de Colombia.
+                    <!-- Item 20 -->
+                    <div class="carousel-slide-item">
+                        <img src="trabajo_social_20.jpg" alt="Mirando al futuro con la bandera de Colombia." class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/800x600/c8102e/ffffff?text=FOTO+20';">
                     </div>
+                    
+                    <!-- INICIO DE LAS 5 NUEVAS IMÁGENES AGREGADAS -->
+                    
+                    <!-- Item 21 -->
+                    <div class="carousel-slide-item">
+                        <img src="trabajo_social_21.jpg" alt="Nuevo Compromiso Comunitario." class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/800x600/003087/ffffff?text=FOTO+21';">
+                    </div>
+
+                    <!-- Item 22 -->
+                    <div class="carousel-slide-item">
+                        <img src="trabajo_social_22.jpg" alt="Encuentro con Jóvenes Emprendedores." class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/800x600/c8102e/ffffff?text=FOTO+22';">
+                    </div>
+
+                    <!-- Item 23 -->
+                    <div class="carousel-slide-item">
+                        <img src="trabajo_social_23.jpg" alt="Diálogo sobre Tecnología y Territorio." class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/800x600/fcd116/003087?text=FOTO+23';">
+                    </div>
+
+                    <!-- Item 24 -->
+                    <div class="carousel-slide-item">
+                        <img src="trabajo_social_24.jpg" alt="Reunión de Liderazgo Social." class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/800x600/003087/ffffff?text=FOTO+24';">
+                    </div>
+
+                    <!-- Item 25 -->
+                    <div class="carousel-slide-item">
+                        <img src="trabajo_social_25.jpg" alt="Visita a Zona Rural Afectada." class="gallery-img" onerror="this.onerror=null; this.src='https://placehold.co/800x600/c8102e/ffffff?text=FOTO+25';">
+                    </div>
+                    
+                    <!-- FIN DE LAS 5 NUEVAS IMÁGENES AGREGADAS -->
                 </div>
+                
+                <!-- Botón Anterior -->
+                <button class="carousel-button-nav left-0 ml-4" onclick="mover(-1)">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </button>
 
-            </div> <!-- Fin de la Cuadrícula -->
-
+                <!-- Botón Siguiente -->
+                <button class="carousel-button-nav right-0 mr-4" onclick="mover(1)">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
+                
+            </div>
+            <!-- Fin del Contenedor del Carrusel -->
+            
             <!-- Botón para regresar a la página principal -->
             <div class="mt-12 text-center">
                 <a href="#propuestas" class="inline-block bg-[var(--color-secondary)] hover:bg-blue-800 text-white text-xl font-bold py-3 px-10 rounded-full shadow-lg transition duration-300 transform hover:translate-y-[-2px] focus:ring-4 focus:ring-blue-300">
@@ -576,18 +633,62 @@
         </div>
     </footer>
 
-    <!-- JavaScript para la funcionalidad móvil y scroll suave -->
+    <!-- JavaScript para la funcionalidad móvil y carrusel 3D -->
     <script>
+        let index = 0;
+        const slidesContainer = document.getElementById("slides-container");
+        const totalSlides = 25; // NÚMERO DE SLIDES: 25
+        const angleStep = 360 / totalSlides; // 14.4 grados por slide
+        let radius = 0; // Radio del cilindro (se calcula en initialize)
+
+        function initializeCarouselJS() {
+            if (!slidesContainer) return;
+            
+            // 1. Calcular el radio (translateZ) para formar el cilindro
+            const currentSlideWidth = window.innerWidth >= 768 ? 500 : 400; 
+            radius = Math.round((currentSlideWidth / 2) / Math.tan(Math.PI / totalSlides));
+            
+            // 2. Posicionar cada slide en el perímetro del cilindro
+            Array.from(slidesContainer.children).forEach((slide, i) => {
+                // translateZ empuja la cara hacia atrás, rotateY la gira a su posición
+                slide.style.transform = `rotateY(${i * angleStep}deg) translateZ(${radius}px)`;
+            });
+
+            // 3. Iniciar el auto-play: mover al siguiente slide cada 4 segundos
+            window.mover = mover;
+            // Primero limpiamos el intervalo existente si lo hay
+            if (window.carouselInterval) {
+                clearInterval(window.carouselInterval);
+            }
+            window.carouselInterval = setInterval(() => mover(1), 4000); 
+        }
+
+        function mover(dir) {
+            if (!slidesContainer || totalSlides === 0) return;
+            
+            // 1. Calcular el nuevo índice (el módulo asegura que el carrusel sea infinito)
+            index = (index + dir + totalSlides) % totalSlides;
+            
+            // 2. Calcular la rotación total del cilindro
+            const newRotation = -index * angleStep;
+            
+            // 3. Aplicar la rotación al contenedor principal (el cilindro)
+            slidesContainer.style.transform = `translateZ(-${radius}px) rotateY(${newRotation}deg)`;
+        }
+
+
         document.addEventListener('DOMContentLoaded', () => {
+            // Inicializar el carrusel 3D
+            initializeCarouselJS(); 
+
+            // Funcionalidad del menú móvil
             const menuToggle = document.getElementById('menu-toggle');
             const mobileMenu = document.getElementById('mobile-menu');
 
-            // 1. Alternar menú móvil al hacer clic en el botón
             menuToggle.addEventListener('click', () => {
                 mobileMenu.classList.toggle('hidden');
             });
 
-            // 2. Ocultar menú móvil al hacer clic en un enlace (para navegar)
             const mobileLinks = mobileMenu.querySelectorAll('a');
             mobileLinks.forEach(link => {
                 link.addEventListener('click', () => {
@@ -595,7 +696,7 @@
                 });
             });
 
-            // 3. Efecto de scroll suave para la navegación (funciona para anclas como #propuestas)
+            // Efecto de scroll suave para la navegación
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
                     e.preventDefault();
@@ -605,6 +706,10 @@
                 });
             });
         });
+        
+        // Manejar el cambio de tamaño para recalcular el radio 3D (importante para responsive)
+        window.addEventListener('resize', initializeCarouselJS);
     </script>
 </body>
 </html>
+
