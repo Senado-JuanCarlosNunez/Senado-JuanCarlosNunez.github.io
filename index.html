@@ -52,6 +52,10 @@
             justify-content: center;
             background-color: white;
             color: var(--color-dark);
+            /* Asegurar que el contenido no se salga */
+            overflow: hidden;
+            border-radius: 0.5rem;
+            border: 1px solid #e5e7eb;
         }
         .proposal-slide-content h3 {
             color: var(--color-accent);
@@ -114,13 +118,16 @@
             display: flex; /* Para centrar el contenedor interno */
             justify-content: center;
             align-items: center;
+            /* Importante para detectar el mouse correctamente en todo el área */
+            padding-top: 2rem; 
+            padding-bottom: 2rem;
         }
         .carousel-slide { /* Este es el cilindro que rota */
             position: relative;
             width: 400px; /* Ancho fijo para el cilindro */
             height: 300px; /* Altura del cilindro (REDUCIDO) */
             transform-style: preserve-3d; /* Clave para 3D */
-            transition: transform 0.8s ease-in-out; /* Movimiento de rotación */
+            transition: transform 1s ease-in-out; /* Movimiento de rotación */
         }
         /* Altura adaptativa */
         @media (min-width: 768px) {
@@ -320,7 +327,7 @@
                     Mis 7 Pilares para el Senado
                 </h2>
                 <p class="text-lg text-gray-600 max-w-3xl mx-auto">
-                    Explora mis propuestas clave en este formato interactivo.
+                    Explora mis propuestas clave en este formato interactivo. (Pasa el mouse para detener)
                 </p>
             </div>
 
@@ -793,6 +800,7 @@
         const totalImageSlides = 25; // NÚMERO DE SLIDES: 25
         const imageAngleStep = 360 / totalImageSlides; // 14.4 grados por slide
         let imageRadius = 0; 
+        let imageInterval;
         
         // --- CARRUSEL DE PROPUESTAS ---
         let proposalIndex = 0;
@@ -800,10 +808,12 @@
         const totalProposalSlides = 7; // NÚMERO DE SLIDES: 7 propuestas
         const proposalAngleStep = 360 / totalProposalSlides; // 51.4 grados por slide
         let proposalRadius = 0; 
+        let proposalInterval;
 
         function initializeCarouselJS() {
             // Inicializar Carrusel de Imágenes
-            if (imageSlidesContainer) {
+            const imgContainer = document.getElementById("image-carousel-container");
+            if (imageSlidesContainer && imgContainer) {
                 const currentSlideWidth = window.innerWidth >= 768 ? 500 : 400; 
                 imageRadius = Math.round((currentSlideWidth / 2) / Math.tan(Math.PI / totalImageSlides));
                 
@@ -811,11 +821,16 @@
                     slide.style.transform = `rotateY(${i * imageAngleStep}deg) translateZ(${imageRadius}px)`;
                 });
                 moverImagenes(0); // Posición inicial
+
+                // Configurar auto-play y pausa al pasar el mouse para Imágenes
+                startImageCarousel();
+                imgContainer.addEventListener('mouseenter', stopImageCarousel);
+                imgContainer.addEventListener('mouseleave', startImageCarousel);
             }
 
             // Inicializar Carrusel de Propuestas
-            if (proposalSlidesContainer) {
-                // El radio para las propuestas es diferente debido al menor número de caras (7 vs 25)
+            const propContainer = document.getElementById("propuestas-carousel-container");
+            if (proposalSlidesContainer && propContainer) {
                 const currentSlideWidth = window.innerWidth >= 768 ? 500 : 400; 
                 proposalRadius = Math.round((currentSlideWidth / 2) / Math.tan(Math.PI / totalProposalSlides));
                 
@@ -823,30 +838,57 @@
                     slide.style.transform = `rotateY(${i * proposalAngleStep}deg) translateZ(${proposalRadius}px)`;
                 });
                 moverPropuestas(0); // Posición inicial
+
+                // Configurar auto-play y pausa al pasar el mouse para Propuestas
+                startProposalCarousel();
+                propContainer.addEventListener('mouseenter', stopProposalCarousel);
+                propContainer.addEventListener('mouseleave', startProposalCarousel);
             }
-            
-            // 3. Iniciar el auto-play (solo para la galería de imágenes, ya que es la más larga)
-            if (window.carouselInterval) {
-                clearInterval(window.carouselInterval);
-            }
-            window.carouselInterval = setInterval(() => moverImagenes(1), 4000); 
         }
 
-        // Función para mover el carrusel de imágenes
+        // --- Funciones de Control de Intervalos ---
+
+        function startImageCarousel() {
+            stopImageCarousel(); // Limpiar intervalo existente por seguridad
+            imageInterval = setInterval(() => moverImagenes(1), 2000);
+        }
+
+        function stopImageCarousel() {
+            clearInterval(imageInterval);
+        }
+
+        function startProposalCarousel() {
+            stopProposalCarousel();
+            // Intervalo un poco más largo para propuestas (5s) para dar tiempo a leer títulos si no pausan
+            proposalInterval = setInterval(() => moverPropuestas(1), 2000); 
+        }
+
+        function stopProposalCarousel() {
+            clearInterval(proposalInterval);
+        }
+
+
+        // --- Funciones de Movimiento (MODIFICADAS PARA INFINITO) ---
+
         function moverImagenes(dir) {
             if (!imageSlidesContainer || totalImageSlides === 0) return;
             
-            imageIndex = (imageIndex + dir + totalImageSlides) % totalImageSlides;
+            // Incrementamos el índice libremente (puede ser negativo o muy grande)
+            imageIndex += dir;
+            
+            // Calculamos la rotación basada en el índice acumulado
             const newRotation = -imageIndex * imageAngleStep;
             
             imageSlidesContainer.style.transform = `translateZ(-${imageRadius}px) rotateY(${newRotation}deg)`;
         }
 
-        // Función para mover el carrusel de propuestas
         function moverPropuestas(dir) {
             if (!proposalSlidesContainer || totalProposalSlides === 0) return;
             
-            proposalIndex = (proposalIndex + dir + totalProposalSlides) % totalProposalSlides;
+            // Incrementamos el índice libremente (puede ser negativo o muy grande)
+            proposalIndex += dir;
+            
+            // Calculamos la rotación basada en el índice acumulado
             const newRotation = -proposalIndex * proposalAngleStep;
             
             proposalSlidesContainer.style.transform = `translateZ(-${proposalRadius}px) rotateY(${newRotation}deg)`;
@@ -887,4 +929,4 @@
         window.addEventListener('resize', initializeCarouselJS);
     </script>
 </body>
-</html>
+    </html>
