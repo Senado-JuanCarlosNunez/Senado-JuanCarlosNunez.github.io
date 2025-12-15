@@ -5,6 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Título de la página principal -->
     <title>Juan Carlos Núñez | Candidato al Senado | Nuevo Liberalismo</title>
+    
+    <!-- Código de Google Analytics para medición de tráfico (INSERCIÓN) -->
+    <!-- ID de Medición: G-YSYBBH6H4Q (Proporcionado por Google Analytics) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YSYBBH6H4Q"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-YSYBBH6H4Q');
+    </script>
+    <!-- FIN del Código de Google Analytics -->
+    
     <!-- Carga de Tailwind CSS para diseño moderno y responsive -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -813,7 +826,7 @@
         let proposalInterval;
 
         function initializeCarouselJS() {
-            // Inicializar Carrusel de Imágenes
+            // Inicializar ambos carruseles 3D
             const imgContainer = document.getElementById("image-carousel-container");
             if (imageSlidesContainer && imgContainer) {
                 const currentSlideWidth = window.innerWidth >= 768 ? 500 : 400; 
@@ -830,7 +843,6 @@
                 imgContainer.addEventListener('mouseleave', startImageCarousel);
             }
 
-            // Inicializar Carrusel de Propuestas
             const propContainer = document.getElementById("propuestas-carousel-container");
             if (proposalSlidesContainer && propContainer) {
                 const currentSlideWidth = window.innerWidth >= 768 ? 500 : 400; 
@@ -931,4 +943,5 @@
         window.addEventListener('resize', initializeCarouselJS);
     </script>
 </body>
-</html>
+    </html>
+
